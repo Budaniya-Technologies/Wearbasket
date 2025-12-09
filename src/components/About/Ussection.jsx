@@ -38,7 +38,7 @@ const items = [
     {
         title: "Free Shipping",
         Subtitle: "On all orders above ₹500",
-        img: "https://image3.jdomni.in/banner/13062021/58/97/7C/E53960D1295621EFCB5B13F335_1623567851299.png?output-format=webp"
+        img: "https://image3.jdomni.in/banner/13062021/EB/99/EE/8B46027500E987A5142ECC1CE1_1623567959360.png?output-format=webp"
     },
     {
         title: "100% Money Back",
