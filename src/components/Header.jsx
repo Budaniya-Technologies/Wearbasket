@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { FiSearch, FiHeart, FiShoppingCart, FiUser } from "react-icons/fi";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -9,7 +10,6 @@ export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    // Check login status from localStorage
     const loggedInStatus = localStorage.getItem("isLoggedIn") === "true";
     setIsLoggedIn(loggedInStatus);
 
@@ -19,21 +19,19 @@ export default function Header() {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn"); // clear login status
+    localStorage.removeItem("isLoggedIn");
     setIsLoggedIn(false);
-    setMenuOpen(false); // close mobile menu if open
-    // optionally redirect to home or login page
+    setMenuOpen(false);
     window.location.href = "/loginPage";
   };
 
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
+    { name: "Shop", href: "/shop" },
     { name: "Product", href: "/product" },
-    { name: "Privacy Policy", href: "/privacyPolicy" },
-    { name: "Refund Policy", href: "/refundPolicy" },
-    { name: "Terms", href: "/termsConditions" },
-    { name: "Contact Us", href: "/contact" },
+    { name: "Pages", href: "/pages" },
+    { name: "Blog", href: "/blog" },
   ];
 
   return (
@@ -46,7 +44,7 @@ export default function Header() {
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
           <h1 className="text-2xl font-extrabold text-green-500 tracking-wide">
-            Wearbasket 
+            Wearbasket
           </h1>
         </Link>
 
@@ -64,9 +62,17 @@ export default function Header() {
           ))}
         </ul>
 
-        {/* Desktop Buttons */}
+        {/* Desktop Buttons & Icons */}
         <div className="hidden md:flex items-center space-x-4">
-          {isLoggedIn ? (
+          {/* Action Icons */}
+          <div className="flex items-center space-x-4 text-gray-600">
+            <FiSearch size={20} className="cursor-pointer hover:text-green-600" />
+            <FiHeart size={20} className="cursor-pointer hover:text-green-600" />
+            <FiShoppingCart size={20} className="cursor-pointer hover:text-green-600" />
+            <FiUser size={20} className="cursor-pointer hover:text-green-600" />
+          </div>
+
+          {/* {isLoggedIn ? (
             <button
               onClick={handleLogout}
               className="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-600 transition"
@@ -88,7 +94,7 @@ export default function Header() {
                 Register
               </Link>
             </>
-          )}
+          )} */}
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -115,7 +121,14 @@ export default function Header() {
                 </Link>
               </li>
             ))}
-            <div className="flex space-x-3">
+            {/* Action Icons in Mobile */}
+            <div className="flex space-x-4">
+              <FiSearch size={20} className="cursor-pointer hover:text-green-600" />
+              <FiHeart size={20} className="cursor-pointer hover:text-green-600" />
+              <FiShoppingCart size={20} className="cursor-pointer hover:text-green-600" />
+              <FiUser size={20} className="cursor-pointer hover:text-green-600" />
+            </div>
+            {/* <div className="flex space-x-3">
               {isLoggedIn ? (
                 <button
                   onClick={handleLogout}
@@ -141,7 +154,7 @@ export default function Header() {
                   </Link>
                 </>
               )}
-            </div>
+            </div> */}
           </ul>
         </div>
       )}
