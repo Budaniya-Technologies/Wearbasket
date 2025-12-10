@@ -1,29 +1,33 @@
 "use client";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { FiSearch, FiHeart, FiShoppingCart, FiUser } from "react-icons/fi";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [userOpen, setUserOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const userRef = useRef(null);
 
   useEffect(() => {
-    const loggedInStatus = localStorage.getItem("isLoggedIn") === "true";
-    setIsLoggedIn(loggedInStatus);
-
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    setIsLoggedIn(false);
-    setMenuOpen(false);
-    window.location.href = "/loginPage";
-  };
+    // Close dropdown on outside click
+    const handleClickOutside = (e) => {
+      if (userRef.current && !userRef.current.contains(e.target)) {
+        setUserOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -41,11 +45,10 @@ export default function Header() {
       }`}
     >
       <nav className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        
         {/* Logo */}
-        <Link href="/" className="flex items-center space-x-2">
-          <h1 className="text-2xl font-extrabold text-green-500 tracking-wide">
-            Wearbasket
-          </h1>
+        <Link href="/" className="text-2xl font-extrabold text-green-500">
+          Wearbasket
         </Link>
 
         {/* Desktop Menu */}
@@ -54,7 +57,7 @@ export default function Header() {
             <li key={link.name}>
               <Link
                 href={link.href}
-                className="hover:text-green-600 transition-colors duration-200"
+                className="hover:text-green-600 transition"
               >
                 {link.name}
               </Link>
@@ -62,45 +65,55 @@ export default function Header() {
           ))}
         </ul>
 
-        {/* Desktop Buttons & Icons */}
-        <div className="hidden md:flex items-center space-x-4">
-          {/* Action Icons */}
-          <div className="flex items-center space-x-4 text-gray-600">
-            <FiSearch size={20} className="cursor-pointer hover:text-green-600" />
-            <FiHeart size={20} className="cursor-pointer hover:text-green-600" />
-            <FiShoppingCart size={20} className="cursor-pointer hover:text-green-600" />
-            <FiUser size={20} className="cursor-pointer hover:text-green-600" />
-          </div>
+        {/* Desktop Icons */}
+        <div className="hidden md:flex items-center space-x-4 text-gray-600">
 
-          {/* {isLoggedIn ? (
-            <button
-              onClick={handleLogout}
-              className="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-600 transition"
-            >
-              Logout
-            </button>
-          ) : (
-            <>
-              <Link
-                href="/loginPage"
-                className="bg-gray-800 text-white px-6 py-2 rounded-full hover:bg-gray-700 transition"
-              >
-                Login
-              </Link>
-              <Link
-                href="/register"
-                className="bg-green-500 text-white px-6 py-2 rounded-full hover:bg-green-600 transition"
-              >
-                Register
-              </Link>
-            </>
-          )} */}
+          <FiSearch size={20} className="cursor-pointer hover:text-green-600" />
+          <FiHeart size={20} className="cursor-pointer hover:text-green-600" />
+          <FiShoppingCart size={20} className="cursor-pointer hover:text-green-600" />
+
+          {/* USER DROPDOWN */}
+          <div className="relative" ref={userRef}>
+            <FiUser
+              size={22}
+              onClick={() => setUserOpen(!userOpen)}
+              className="cursor-pointer hover:text-green-600"
+            />
+
+            {userOpen && (
+              <div className="absolute right-0 mt-3 w-40 bg-white shadow-lg border rounded-lg py-2 z-50">
+                <Link
+                  href="/loginPage"
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  onClick={() => setUserOpen(false)}
+                >
+                  Login
+                </Link>
+
+                <Link
+                  href="/signupPage"
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  onClick={() => setUserOpen(false)}
+                >
+                  Sign Up
+                </Link>
+
+                <Link
+                  href="/profile"
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  onClick={() => setUserOpen(false)}
+                >
+                  Profile
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Mobile Menu Toggle */}
+        {/* Mobile Menu Button */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden text-gray-800 focus:outline-none"
+          className="md:hidden text-gray-800"
         >
           {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
         </button>
@@ -108,53 +121,31 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-200 shadow-md">
-          <ul className="flex flex-col items-center py-4 space-y-4 text-gray-700 font-medium">
+        <div className="md:hidden bg-white border-t py-4 shadow-md">
+          <ul className="flex flex-col items-center space-y-4 text-gray-700 font-medium">
             {navLinks.map((link) => (
               <li key={link.name}>
                 <Link
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
-                  className="hover:text-green-600 transition"
+                  className="hover:text-green-600"
                 >
                   {link.name}
                 </Link>
               </li>
             ))}
-            {/* Action Icons in Mobile */}
-            <div className="flex space-x-4">
-              <FiSearch size={20} className="cursor-pointer hover:text-green-600" />
-              <FiHeart size={20} className="cursor-pointer hover:text-green-600" />
-              <FiShoppingCart size={20} className="cursor-pointer hover:text-green-600" />
-              <FiUser size={20} className="cursor-pointer hover:text-green-600" />
+
+            {/* Mobile Icons */}
+            <div className="flex space-x-4 mt-4">
+              <FiSearch size={20} />
+              <FiHeart size={20} />
+              <FiShoppingCart size={20} />
+
+              {/* SIMPLE user icon for mobile (dropdown optional) */}
+              <Link href="/loginPage">
+                <FiUser size={20} />
+              </Link>
             </div>
-            {/* <div className="flex space-x-3">
-              {isLoggedIn ? (
-                <button
-                  onClick={handleLogout}
-                  className="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-600 transition"
-                >
-                  Logout
-                </button>
-              ) : (
-                <>
-                  <Link
-                    href="/loginPage"
-                    onClick={() => setMenuOpen(false)}
-                    className="bg-gray-800 text-white px-6 py-2 rounded-full hover:bg-gray-700 transition"
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    href="/register"
-                    onClick={() => setMenuOpen(false)}
-                    className="bg-green-500 text-white px-6 py-2 rounded-full hover:bg-green-600 transition"
-                  >
-                    Register
-                  </Link>
-                </>
-              )}
-            </div> */}
           </ul>
         </div>
       )}

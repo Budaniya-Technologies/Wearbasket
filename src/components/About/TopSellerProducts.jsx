@@ -186,28 +186,33 @@ export default function TopSellerProducts() {
       : products.filter((p) => p.tag === activeFilter);
 
   return (
-    <section className="py-16 bg-white">
-      <div className="max-w-6xl mx-auto px-6">
-        
-        {/* HEADER */}
-        <h2 className="text-gray-600 font-semibold mb-1">Our Products</h2>
+    <section className="py-12 bg-white">
+      <div className="max-w-6xl mx-auto px-4 md:px-6">
 
-        <div className="flex items-center justify-between mb-10">
-          <h1 className="text-4xl font-bold text-gray-800">
+        {/* HEADER */}
+        <h2 className="text-gray-600 font-medium mb-1 text-sm md:text-base">
+          Our Products
+        </h2>
+
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-10">
+
+          {/* TITLE */}
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800">
             Our Top Seller Products
           </h1>
 
           {/* FILTER BUTTONS */}
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-2">
             {filters.map((f) => (
               <button
                 key={f}
                 onClick={() => setActiveFilter(f)}
-                className={`px-5 py-2 rounded-md font-medium border transition ${
-                  activeFilter === f
-                    ? "bg-gray-900 text-white"
-                    : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-                }`}
+                className={`px-4 py-2 rounded-md text-sm font-medium border transition 
+                  ${
+                    activeFilter === f
+                      ? "bg-gray-900 text-white"
+                      : "bg-gray-100 text-gray-800 hover:bg-gray-200"
+                  }`}
               >
                 {f}
               </button>
@@ -215,54 +220,57 @@ export default function TopSellerProducts() {
           </div>
         </div>
 
-        {/* PRODUCTS GRID */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* PRODUCT GRID – RESPONSIVE */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {filteredProducts.map((product) => (
             <div
               key={product.id}
               className="bg-white rounded-xl shadow-md hover:shadow-xl transition p-4 relative"
             >
-              {/* Discount Badge */}
-              <span className="absolute bg-green-600 text-white text-sm px-3 py-1 rounded-bl-xl rounded-tr-xl">
+              {/* DISCOUNT BADGE */}
+              <span className="absolute bg-green-600 text-white text-xs sm:text-sm px-3 py-1 rounded-bl-xl rounded-tr-xl">
                 {product.discount}
               </span>
 
-              {/* Image */}
+              {/* IMAGE */}
               <div className="relative">
                 <img
                   src={product.img}
                   alt={product.name}
-                  className="w-full h-60 object-cover rounded-xl"
+                  className="w-full h-52 sm:h-56 md:h-60 object-cover rounded-xl"
                 />
 
-                {/* Icons */}
+                {/* ICONS */}
                 <div className="absolute top-3 right-3 flex flex-col gap-2">
                   <FaHeart
-                    size={35}
+                    size={28}
                     className="text-gray-700 bg-white p-2 rounded-full shadow cursor-pointer hover:text-red-500"
                   />
                   <FaSync
-                    size={35}
+                    size={28}
                     className="text-gray-700 bg-white p-2 rounded-full shadow cursor-pointer hover:text-blue-500"
                   />
                 </div>
               </div>
 
-              {/* Info */}
+              {/* PRODUCT INFO */}
               <p className="text-sm text-gray-500 mt-3">{product.category}</p>
-              <h3 className="text-lg font-bold text-gray-800">{product.name}</h3>
 
-              {/* Rating */}
-              <p className="text-yellow-500 mt-1 flex items-center gap-1">
+              <h3 className="text-base sm:text-lg font-bold text-gray-800 leading-tight">
+                {product.name}
+              </h3>
+
+              {/* RATING */}
+              <p className="text-yellow-500 mt-1 flex items-center gap-1 text-sm">
                 <FaStar /> {product.rating}
               </p>
 
-              {/* Price */}
+              {/* PRICE */}
               <div className="mt-2 flex items-center gap-3">
-                <span className="font-bold text-xl text-gray-900">
+                <span className="font-bold text-lg text-gray-900">
                   ${product.price.toFixed(2)}
                 </span>
-                <span className="text-gray-500 line-through">
+                <span className="text-gray-500 line-through text-sm sm:text-base">
                   ${product.oldPrice.toFixed(2)}
                 </span>
               </div>
