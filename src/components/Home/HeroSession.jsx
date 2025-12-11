@@ -9,35 +9,34 @@ export default function HeroSession() {
 
   const slides = [
     {
-      title: "Objavte nové obzory",
-      description: "Cestovateľské zážitky, ktoré vám zmenia život",
-      buttonText: "Rezervovať",
+      title: "Step Into the New Season",
+      description: "Discover the latest clothing trends, crafted for comfort and style.",
+      buttonText: "Shop Now",
       buttonUrl: "#",
       image:
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
     },
     {
-      title: "Prírodné krásy",
-      description: "Nádherné výhľady a čistá príroda",
-      buttonText: "Pozrieť ponuku",
+      title: "Your Style, Your Season",
+      description: "From cozy winterwear to light summer fits—upgrade your wardrobe today.",
+      buttonText: "Explore Collection",
       buttonUrl: "#",
       image:
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80",
     },
     {
-      title: "Mestské dobrodružstvo",
-      description: "Moderné mestá plné života a kultúry",
-      buttonText: "Viac informácií",
+      title: "Trendy Looks. Smart Prices.",
+      description: "Get up to 50% OFF on top fashion brands. Limited-time deals!",
+      buttonText: "Grab Offer",
       buttonUrl: "#",
       image:
-        "https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1920&q=80",
     },
   ];
 
   useEffect(() => {
     startAutoplay();
     return () => stopAutoplay();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoplay, currentSlide]);
 
   function startAutoplay() {
@@ -46,7 +45,7 @@ export default function HeroSession() {
       if (autoplay) {
         setCurrentSlide((s) => (s + 1) % slides.length);
       }
-    }, 1000);
+    }, 9000);
   }
 
   function stopAutoplay() {
@@ -88,29 +87,40 @@ export default function HeroSession() {
           <div
             key={index}
             aria-hidden={currentSlide !== index}
-            className={`absolute inset-0 hero-slide ${currentSlide === index ? "opacity-100 z-5" : "opacity-0 pointer-events-none"
+            className={`absolute inset-0 hero-slide ${currentSlide === index
+                ? "opacity-100 z-10"
+                : "opacity-0 pointer-events-none"
               }`}
           >
-            <div className="absolute inset-0 bg-gray-800">
-              <img
-                src={slide.image}
-                alt={slide.title}
-                className="w-full h-full object-cover opacity-80"
-                onError={(e) => replaceBrokenImage(e, index)}
-                loading="lazy"
-              />
-            </div>
+            <img
+              src={slide.image}
+              alt={slide.title}
+              className="absolute inset-0 w-full h-full object-cover"
+              onError={(e) => replaceBrokenImage(e, index)}
+            />
 
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-black/50"></div>
+
+            {/* Content */}
             <div className="container mx-auto px-6 h-full flex items-center">
               <div
-                className={`max-w-2xl text-white slide-content transform transition-all duration-600 ease-[cubic-bezier(.4,0,.2,1)] ${currentSlide === index ? "translate-x-0 opacity-100" : "translate-x-10 opacity-0"
+                className={`max-w-2xl text-white slide-content transform transition-all duration-700 ease-out ${currentSlide === index
+                    ? "translate-x-0 opacity-100"
+                    : "translate-x-10 opacity-0"
                   }`}
               >
-                <h2 className="text-4xl md:text-5xl font-bold mb-4">{slide.title}</h2>
-                <p className="text-xl md:text-2xl mb-8">{slide.description}</p>
+                <h2 className="text-4xl md:text-6xl lovelace font-semibold mb-1 leading-[70px] ">
+                  {slide.title}
+                </h2>
+
+                <p className="text-lg md:text-xl text-gray-200 mb-8 leading-relaxed">
+                  {slide.description}
+                </p>
+
                 <a
                   href={slide.buttonUrl}
-                  className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-semibold transition-colors fade-in"
+                  className="inline-block border border-blue-500 text-blue-500 hover:bg-white hover:text-black px-10 py-3 rounded-sm text-lg font-medium transition-all"
                 >
                   {slide.buttonText}
                 </a>
@@ -119,56 +129,59 @@ export default function HeroSession() {
           </div>
         ))}
 
+        {/* Prev Button */}
         <button
           onClick={prev}
-          className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center z-10 transition-all"
+          className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-sm hover:bg-black/60 text-white rounded-full w-12 h-12 flex items-center justify-center z-20 transition-all"
           aria-label="Previous slide"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
 
+        {/* Next Button */}
         <button
           onClick={next}
-          className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center z-10 transition-all"
+          className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-sm hover:bg-black/60 text-white rounded-full w-12 h-12 flex items-center justify-center z-20 transition-all"
           aria-label="Next slide"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 md:h-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
           </svg>
         </button>
 
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-2 z-10">
+        {/* Dots */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-3 z-20">
           {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => goTo(index)}
-              className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-all ${currentSlide === index ? "bg-white w-4 md:w-6" : "bg-white/50"
+              className={`h-3 rounded-full transition-all ${currentSlide === index ? "bg-white w-8" : "bg-white/50 w-3"
                 }`}
-              aria-label={`Go to slide ${index + 1}`}
             />
           ))}
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .hero-slide {
-          transition: opacity 0.8s ease, transform 0.8s ease;
+          transition: opacity 0.9s ease, transform 0.9s ease;
         }
         .slide-content {
-          transition: all 0.6s ease 0.3s;
-        }
-        .fade-in {
-          animation: fadeIn 1s ease-in;
-        }
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
+          transition: all 0.7s ease 0.3s;
         }
       `}</style>
     </div>
