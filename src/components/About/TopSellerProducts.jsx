@@ -1,9 +1,12 @@
 "use client";
+
 import { useState } from "react";
 import { FaHeart, FaStar, FaSync } from "react-icons/fa";
 
 export default function TopSellerProducts() {
   const filters = ["All", "Women", "Men", "Accessories"];
+
+  const [activeFilter, setActiveFilter] = useState("All");
 
   const products = [
     // ------------------ WOMEN (CLOTHING ONLY) ------------------
@@ -178,36 +181,34 @@ export default function TopSellerProducts() {
     },
   ];
 
-  const [activeFilter, setActiveFilter] = useState("All");
-
   const filteredProducts =
     activeFilter === "All"
       ? products
       : products.filter((p) => p.tag === activeFilter);
 
   return (
-    <section className="py-16 bg-white">
-      <div className="max-w-6xl mx-auto px-6">
-        
+    <section className="py-16 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* HEADER */}
-        <h2 className="text-gray-600 font-semibold mb-1">Our Products</h2>
-
-        <div className="flex items-center justify-between mb-10">
-          <h1 className="text-4xl font-bold text-gray-800">
-            Our Top Seller Products
+        <div className="text-center mb-12">
+          <p className="text-gray-600 font-medium tracking-wide">
+            Our Products
+          </p>
+          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mt-1">
+            Top Seller Collections
           </h1>
 
           {/* FILTER BUTTONS */}
-          <div className="flex gap-3">
+          <div className="flex flex-wrap justify-center gap-3 mt-8">
             {filters.map((f) => (
               <button
                 key={f}
                 onClick={() => setActiveFilter(f)}
-                className={`px-5 py-2 rounded-md font-medium border transition ${
-                  activeFilter === f
-                    ? "bg-gray-900 text-white"
-                    : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-                }`}
+                className={`px-6 py-2 rounded-full text-sm font-semibold border transition-all duration-300 shadow-sm
+                    ${activeFilter === f
+                    ? "bg-black text-white border-black scale-105"
+                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                  }`}
               >
                 {f}
               </button>
@@ -215,61 +216,76 @@ export default function TopSellerProducts() {
           </div>
         </div>
 
-        {/* PRODUCTS GRID */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* PRODUCT CARDS */}
+        {/* Changed grid-cols for mobile to 2, and adjusted gap to 3 for mobile / 8 for desktop */}
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-8">
           {filteredProducts.map((product) => (
             <div
               key={product.id}
-              className="bg-white rounded-xl shadow-md hover:shadow-xl transition p-4 relative"
+              className="rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 hover:-translate-y-2"
             >
-              {/* Discount Badge */}
-              <span className="absolute bg-green-600 text-white text-sm px-3 py-1 rounded-bl-xl rounded-tr-xl">
-                {product.discount}
-              </span>
-
-              {/* Image */}
               <div className="relative">
+                {/* Adjusted Height: h-40 for mobile, h-64 for desktop */}
                 <img
                   src={product.img}
                   alt={product.name}
-                  className="w-full h-60 object-cover rounded-xl"
+                  className="w-full h-40 md:h-64 object-cover rounded-t-2xl"
                 />
 
-                {/* Icons */}
+                {/* Discount Tag: slightly smaller font/padding on mobile */}
+                <span className="absolute top-3 left-3 bg-black text-white text-xs md:text-sm px-2 py-1 md:px-3 rounded-full shadow-md">
+                  {product.discount}
+                </span>
+
+                {/* Action Icons */}
                 <div className="absolute top-3 right-3 flex flex-col gap-2">
-                  <FaHeart
-                    size={35}
-                    className="text-gray-700 bg-white p-2 rounded-full shadow cursor-pointer hover:text-red-500"
-                  />
-                  <FaSync
-                    size={35}
-                    className="text-gray-700 bg-white p-2 rounded-full shadow cursor-pointer hover:text-blue-500"
-                  />
+                  <button className="p-1.5 md:p-2 rounded-full bg-white shadow-md hover:bg-gray-100 transition">
+                    <FaHeart className="text-gray-700 text-sm md:text-lg hover:text-red-500 transition" />
+                  </button>
+
+                  <button className="p-1.5 md:p-2 rounded-full bg-white shadow-md hover:bg-gray-100 transition">
+                    <FaSync className="text-gray-700 text-sm md:text-lg hover:text-blue-500 transition" />
+                  </button>
                 </div>
               </div>
 
-              {/* Info */}
-              <p className="text-sm text-gray-500 mt-3">{product.category}</p>
-              <h3 className="text-lg font-bold text-gray-800">{product.name}</h3>
+              {/* PRODUCT INFO - Adjusted Padding for Mobile */}
+              <div className="p-3 md:p-5">
+                <p className="text-[10px] md:text-xs text-gray-400 uppercase tracking-wide">
+                  {product.category}
+                </p>
 
-              {/* Rating */}
-              <p className="text-yellow-500 mt-1 flex items-center gap-1">
-                <FaStar /> {product.rating}
-              </p>
+                {/* Title Sizing */}
+                <h3 className="text-sm md:text-lg font-bold text-gray-800 mt-1 leading-tight truncate">
+                  {product.name}
+                </h3>
 
-              {/* Price */}
-              <div className="mt-2 flex items-center gap-3">
-                <span className="font-bold text-xl text-gray-900">
-                  ${product.price.toFixed(2)}
-                </span>
-                <span className="text-gray-500 line-through">
-                  ${product.oldPrice.toFixed(2)}
-                </span>
+                {/* Rating */}
+                <div className="flex items-center gap-1 mt-2 text-yellow-500">
+                  <FaStar className="text-xs md:text-sm" />
+                  <span className="text-xs md:text-sm font-medium">
+                    {product.rating}
+                  </span>
+                </div>
+
+                {/* Price Section */}
+                <div className="flex flex-wrap items-center gap-2 md:gap-3 mt-2 md:mt-4">
+                  <span className="text-lg md:text-2xl font-bold text-gray-900">
+                    ${product.price.toFixed(2)}
+                  </span>
+                  <span className="line-through text-xs md:text-base text-gray-500">
+                    ${product.oldPrice.toFixed(2)}
+                  </span>
+                </div>
+
+                {/* Add to Cart Button */}
+                <button className="w-full mt-3 md:mt-5 py-2 md:py-3 bg-gray-900 text-white rounded-xl text-xs md:text-base font-medium tracking-wide hover:bg-gray-800 transition">
+                  Add To Cart
+                </button>
               </div>
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );

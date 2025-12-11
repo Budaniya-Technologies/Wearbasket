@@ -17,7 +17,6 @@ export default function GrideSection() {
               <img
                 src="https://c0.wallpaperflare.com/preview/1/58/465/fashion-men-mens-fashion-suits.jpg"
                 alt="Wines"
-                fill
                 className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
               />
               <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
@@ -36,7 +35,6 @@ export default function GrideSection() {
               <img
                 src="https://i.pinimg.com/736x/8f/a8/81/8fa881add906c4f6d4a0e44f5add78be.jpg"
                 alt="Gin"
-                fill
                 className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
               />
               <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
@@ -54,7 +52,6 @@ export default function GrideSection() {
                 <img
                   src="https://c0.wallpaperflare.com/preview/229/561/227/outfitgrid-outfit-clothing-fashion.jpg"
                   alt="Whiskey"
-                  fill
                   className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
@@ -71,7 +68,6 @@ export default function GrideSection() {
                 <img
                   src="https://c0.wallpaperflare.com/preview/807/935/664/apparel-black-and-white-boutique-close-up.jpg"
                   alt="Vodka"
-                  fill
                   className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
@@ -91,7 +87,6 @@ export default function GrideSection() {
               <img
                 src="https://i.pinimg.com/1200x/d4/e1/fb/d4e1fb5179f39df14bf780d65ac75fd2.jpg"
                 alt="Brandy"
-                fill
                 className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
               />
               <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
