@@ -14,7 +14,7 @@ export default function HeroSession() {
       buttonText: "Shop Now",
       buttonUrl: "#",
       image:
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "/Banner-1.png",
     },
     {
       title: "Your Style, Your Season",
@@ -22,7 +22,7 @@ export default function HeroSession() {
       buttonText: "Explore Collection",
       buttonUrl: "#",
       image:
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80",
+        "/Banner-2.png",
     },
     {
       title: "Trendy Looks. Smart Prices.",
@@ -30,7 +30,7 @@ export default function HeroSession() {
       buttonText: "Grab Offer",
       buttonUrl: "#",
       image:
-        "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1920&q=80",
+        "/Third Banner.png",
     },
   ];
 
